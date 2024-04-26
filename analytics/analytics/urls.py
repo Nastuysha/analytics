@@ -20,8 +20,8 @@ from head.views import page_not_found
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('head.urls')), # http://127.0.0.1:8000/
+    path('', include('head.urls')),  # http://127.0.0.1:8000/
+    path('users/', include('users.urls', namespace="users")),  # http://127.0.0.1:8000/
 ]
-
 
 handler404 = page_not_found

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About site</title>
+</head>
+<body>
+<h1>Page app analytics: {{ title }}</h1>
+<ul>
+    <p><a href="/"><h2>General page</h2></a></p>
+    {% for m in menu %}
+    {% if m.title == 'Upload file' or m.title == 'Use test file'%}
+    <p><h2>{{ m.title }}</h2></a></p>
+    {% elif not m.title == 'About site'%}
+    <li>
+        <p><a href="/{{m.content}}"><h2>{{ m.title }}</h2></a></p>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+</body>
+</html>

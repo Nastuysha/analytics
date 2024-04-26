@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link type="text/css" href="{% static 'head/css/styles.css' %}" rel="stylesheet" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+<tr><td valign=top>
+{% block mainmenu %}
+		<div class="header">
+			<h2>Страница выбора категории анализа</h2>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+
+<table class="table-content" border=0 cellpadding="0" cellspacing="0">
+
+<tr>
+<!-- Sidebar слева -->
+	<td valign="top" class="left-chapters">
+	<ul id="leftchapters">
+		<li class="selected">Все категории анализа</li>
+		<li><a href="/">Статистики</a></li>
+		<li><a href="/">Сглаживание рядов</a></li>
+		<li><a href="/">Машинное обучение</a></li>
+		<li><a href="/">Графическое представление</a></li>
+		</li>
+	</ul>
+</td>
+
+<td valign="top" class="content">
+	<!-- Хлебные крошки -->
+	{% block breadcrumbs %}
+	{% endblock %}
+
+<div class="content-text">
+{% block content %}
+<ul class="list-categories">
+	{% for p in type_of_analysis %}
+			<li><h2>{{p.title}}</h2>
+    {% autoescape off %}
+    {% endautoescape %}
+			<div class="clear"></div>
+			<p class="link-read-categories"><a href="{{p.title}}">{{ p.content }}</a></p>
+			</li>
+	{% endfor %}
+</ul>
+{% endblock %}
+</td></tr></table>
+</td></tr>
+
+</div>
+</body>
+</html>
