@@ -6,9 +6,11 @@ from head.models import Category
 
 register = template.Library()
 
+
 @register.simple_tag
 def get_menu():
     return views.menu
+
 
 @register.simple_tag()
 def get_theory():
@@ -19,4 +21,3 @@ def get_theory():
 def show_categories(cat_selected=0):
     cats = Category.objects.annotate(total=Count("posts")).filter(total__gt=0)
     return {'cats': cats, 'cat_selected': cat_selected}
-

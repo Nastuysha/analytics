@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
 from head.forms import UploadFileForm
+from head.models import Category
 
 menu = [{'title': 'About site', 'content': 'about'},
         {'title': 'Registration', 'content': 'registration'},
@@ -70,10 +71,16 @@ def theory(request, th_id):  # HttpRequest
     return HttpResponse(f'<h1>Theory to categories of analysis</h1><p>id: {th_id}</p>')
 
 
-def categories_id(request, cat_id):  # HttpRequest
-    if cat_id != 'stats' and cat_id != 'predict' and cat_id != 'graphs' and cat_id != 'series':
-        raise Http404()
-    return HttpResponse(f'<h1>Categories of analysis</h1><p>id: {cat_id}</p>')
+def show_category(request, cat_slug):  # HttpRequest
+    category = get_object_or_404(Category, slug=cat_slug)
+    # if cat_slug != 'stats' and cat_slug != 'predict' and cat_slug != 'graphs' and cat_slug != 'series':
+    #    raise Http404()
+    data = {
+        'title': f'Categories of analysis: {category.name}',
+        'menu': menu,
+        'cat_selected': cat_slug,
+    }
+    return HttpResponse(f'<h1>Categories of analysis</h1><p>id: {cat_slug}</p>')
 
 
 def start_page(request, url):  # HttpRequest
