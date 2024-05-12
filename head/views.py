@@ -2,8 +2,10 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpRespons
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 
+import os
+from django.conf import settings
 from head.forms import UploadFileForm
-from head.models import Category
+from head.models import Category, UploadFiles
 
 menu = [{'title': 'About site', 'content': 'about'},
         {'title': 'Registration', 'content': 'registration'},
@@ -25,11 +27,19 @@ theory_analysis = [
 ]
 
 
-def index(request):  # HttpRequest
+def index(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(form.cleaned_data['file'])
+            # Создаем объект модели UploadFiles на основе данных формы
+            upload_file = UploadFiles(file=request.FILES['file'])
+
+            # Проверяем, если пользователь авторизован
+            if request.user.is_authenticated:
+                upload_file.user = request.user
+
+            # Сохраняем объект модели
+            upload_file.save()
     else:
         form = UploadFileForm()
     data = {
@@ -37,8 +47,25 @@ def index(request):  # HttpRequest
         'menu': menu,
         'form': form,
     }
-    #t = render_to_string('head/index.html', context=data)  # Path to template: index.html
     return render(request, 'head/index.html', data)
+
+
+# def index(request):  # HttpRequest
+#     if request.method == "POST":
+#         form = UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             #handle_uploaded_file(form.cleaned_data['file'])
+#             fp = UploadFiles(file=form.cleaned_data['file'])
+#             fp.save()
+#     else:
+#         form = UploadFileForm()
+#     data = {
+#         'title': 'start page',
+#         'menu': menu,
+#         'form': form,
+#     }
+#     #t = render_to_string('head/index.html', context=data)  # Path to template: index.html
+#     return render(request, 'head/index.html', data)
 
 
 def handle_uploaded_file(f):
@@ -73,14 +100,18 @@ def theory(request, th_id):  # HttpRequest
 
 def show_category(request, cat_slug):  # HttpRequest
     category = get_object_or_404(Category, slug=cat_slug)
+    post = get_object_or_404(UploadFiles, id=4)
     # if cat_slug != 'stats' and cat_slug != 'predict' and cat_slug != 'graphs' and cat_slug != 'series':
     #    raise Http404()
     data = {
         'title': f'Categories of analysis: {category.name}',
         'menu': menu,
+        'post': post,
         'cat_selected': cat_slug,
     }
-    return HttpResponse(f'<h1>Categories of analysis</h1><p>id: {cat_slug}</p>')
+    print(post.file)
+    return render(request, 'head/post.html', data)
+    #return HttpResponse(f'<h1>Categories of analysis</h1><p>id: {cat_slug}</p>')
 
 
 def start_page(request, url):  # HttpRequest
@@ -97,3 +128,6 @@ def authorization(request):  # HttpRequest
 
 def page_not_found(request, exception):
     return HttpResponseNotFound('<h1>Page not found</h1>')
+
+
+

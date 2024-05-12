@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -30,3 +33,10 @@ class Category(models.Model):
         return reverse('category', kwargs={'cat_slug': self.slug})
 
 
+class UploadFiles(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    file = models.FileField(upload_to='')
+
+    class Meta:
+         verbose_name = "upload files"
+         verbose_name_plural = "upload files"
