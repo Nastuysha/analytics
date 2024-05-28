@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    {{ post.content|linebreaks }}
+    <h2>Вывод графиков зависимостей</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    {% for graph in graphs %}
+        <p><img class="img-article-left" src="{{ graph }}" alt="Graph Image"></p>
+    {% endfor %}
+
+    {% if error %}
+        <p style="color: red;">Error: {{ error }}</p>
+    {% endif %}
+{% endblock %}
+

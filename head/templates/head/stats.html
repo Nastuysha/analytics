@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{title}}</h1>
+{{post.content|linebreaks}}
+<h2>Среднее значение</h2>
+{% for stat_mean in stats_mean %}
+<h3>{{stat_mean}}</h3>
+{% endfor %}
+<h2> </h2>
+<h2>Минимум</h2>
+{% for stat_min in stats_min %}
+<h3>{{stat_min}}</h3>
+{% endfor %}
+<h2> </h2>
+<h2>Максимум</h2>
+{% for stat_max in stats_max %}
+<h3>{{stat_max}}</h3>
+{% endfor %}
+<h2> </h2>
+<h2>Медиана</h2>
+{% for stat_median in stats_median %}
+<h3>{{stat_median}}</h3>
+{% endfor %}
+{% endblock %}
