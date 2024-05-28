@@ -4,7 +4,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
 </head>
 
 {% block content %}
@@ -16,21 +15,18 @@
         <h3>Форма для выбора оси</h3>
         {{ form.axis_choice }}
 
-        <h3>Форма для выбора модели машинного обучения</h3>
+        <h3>Форма для выбора метода сглаживания</h3>
         {{ form.second_choice }}
 
         <button type="submit">Submit</button>
     </form>
 
-    <h1>Результат</h1>
+    <h1>Результат сглаживания</h1>
     {% if predict == '' %}
         <div>Переменная predict равна пустой строке</div>
-        <div>Выберете другую переменную для обучения данной модели</div>
+        <div>Выберете другую переменную для сглаживания данный методом</div>
     {% else %}
-        <h2>Значение метрики f1</h2>
-        <h4>{{ metric }}</h4>
-        <h2>Вывод предсказания</h2>
-        <p><img class="enlarge-img" src="{{ predict }}" alt="Predict Image"></p>
+        <p><img class="enlarge-img" src="{{ series }}" alt="Predict Image"></p>
     {% endif %}
 
     {% if error %}

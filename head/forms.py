@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.utils.deconstruct import deconstructible
 
-from head.models import UploadFiles, ModelML
+from head.models import UploadFiles, ModelML, ModelTS
 
 
 class UploadFileForm(forms.Form):
@@ -28,11 +28,21 @@ class SecondForm(forms.Form):
     second_choice = forms.ChoiceField(choices=SECOND_FORM_CHOICES)
 
 
-class MultiForm(forms.Form):
+class MultiFormPredict(forms.Form):
     axis_choice = forms.ChoiceField(choices=[])
     second_choice = forms.ModelChoiceField(queryset=ModelML.objects.all())
 
     def __init__(self, *args, **kwargs):
         dynamic_choices = kwargs.pop('dynamic_choices', [])
-        super(MultiForm, self).__init__(*args, **kwargs)
+        super(MultiFormPredict, self).__init__(*args, **kwargs)
+        self.fields['axis_choice'].choices = dynamic_choices
+
+
+class MultiFormSeries(forms.Form):
+    axis_choice = forms.ChoiceField(choices=[])
+    second_choice = forms.ModelChoiceField(queryset=ModelTS.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        dynamic_choices = kwargs.pop('dynamic_choices', [])
+        super(MultiFormSeries, self).__init__(*args, **kwargs)
         self.fields['axis_choice'].choices = dynamic_choices

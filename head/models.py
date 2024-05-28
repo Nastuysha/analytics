@@ -66,3 +66,13 @@ class ModelML(models.Model):
     def __str__(self):
         return self.name
 
+
+class ModelTS(models.Model):
+    name = models.CharField(max_length=100, db_index=True, verbose_name="ModelTS")
+
+    class Meta:
+        verbose_name = "ModelTS"
+        verbose_name_plural = "ModelTS"
+
+    def __str__(self):
+        return self.name

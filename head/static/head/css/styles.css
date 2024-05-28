@@ -476,3 +476,9 @@ ul.lang-list li a:hover {color: #000000;}
   font-stretch: normal;
   text-decoration: none;
 }
+
+
+.enlarge-img {
+            width: 150%; /* увеличиваем ширину изображения в два раза */
+            height: auto; /* сохраняем соотношение сторон */
+        }

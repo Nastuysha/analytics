@@ -12,7 +12,7 @@ def get_menu():
     return views.menu
 
 
-@register.simple_tag()
+@register.simple_tag
 def get_theory():
     return views.theory_analysis
 
