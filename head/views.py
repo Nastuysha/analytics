@@ -8,6 +8,7 @@ import math
 import numpy as np
 
 from .forms import DynamicChoiceForm, MultiFormPredict, MultiFormSeries
+from .utils import stats_theory, graphs_theory, predicts_theory, series_theory
 import os
 from django.conf import settings
 
@@ -28,9 +29,10 @@ from matplotlib.colors import ListedColormap
 from django.contrib.auth.decorators import login_required
 from django.core.files import File
 
-menu = [{'title': 'About site', 'content': 'about'},
-        {'title': 'Registration', 'content': 'registration'},
-        {'title': 'Authorization', 'content': 'login'}
+menu = [{'title': 'About site', 'content': 'about'}
+    # ,
+    #     {'title': 'Registration', 'content': 'registration'},
+    #     {'title': 'Authorization', 'content': 'login'}
         ]
 
 type_of_analysis = [
@@ -61,6 +63,7 @@ def index(request):
 
                 # Сохраняем объект модели
                 upload_file.save()
+            return render(request, 'head/index_done.html')
     else:
         form = UploadFileForm()
     data = {
@@ -104,6 +107,7 @@ def head(request):  # HttpRequest
     return HttpResponse('Head page app analytics')
 
 
+@login_required
 def categories(request):  # HttpRequest
     data = {
         'title': 'categories of analysis',
@@ -113,10 +117,33 @@ def categories(request):  # HttpRequest
     return HttpResponse(t)
 
 
+# def theory(request, th_id):  # HttpRequest
+#     if th_id != 'stats' and th_id != 'predict' and th_id != 'graphs' and th_id != 'series':
+#         raise Http404()
+#     return HttpResponse(f'<h1>Theory to categories of analysis</h1><p>id: {th_id}</p>')
+
 def theory(request, th_id):  # HttpRequest
-    if th_id != 'stats' and th_id != 'predict' and th_id != 'graphs' and th_id != 'series':
-        raise Http404()
-    return HttpResponse(f'<h1>Theory to categories of analysis</h1><p>id: {th_id}</p>')
+    if th_id == 'stats':
+        data = {
+            'title': 'Теория по разделу: Статистики',
+            'contents': stats_theory
+        }
+    elif th_id == 'graphs':
+        data = {
+            'title': 'Теория по разделу: Графическое представление',
+            'contents': graphs_theory
+        }
+    elif th_id == 'predict':
+        data = {
+            'title': 'Теория по разделу: Машинное обучение',
+            'contents': predicts_theory
+        }
+    elif th_id == 'series':
+        data = {
+            'title': 'Теория по разделу: Сглаживание рядов',
+            'contents': series_theory
+        }
+    return  render(request, 'head/theory.html', data)
 
 
 # def show_category(request, cat_slug):  # HttpRequest

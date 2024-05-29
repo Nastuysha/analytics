@@ -15,9 +15,14 @@
 			<ul id="mainmenu" class="mainmenu">
 			<li><a href="{% url 'home' %}"></a></li>
 {% for m in menu %}
-	{% if not forloop.first %}<li>{% else %}<li class="last">{% endif %}
+	<li>
 		<a href="{% url m.content %}">{{m.title}}</a></li>
 {% endfor %}
+				{% if user.is_authenticated %}
+    <li class="last"> {{user.username}} | <a href="{% url 'users:logout' %}">Logout</a></li>
+{% else %}
+    <li class="last"><a href="{% url 'users:login' %}">Login</a> | <a href="{% url 'users:register' %}">Registration</a></li>
+{% endif %}
 			</ul>
 			<div class="clear"></div>
 		</div>
